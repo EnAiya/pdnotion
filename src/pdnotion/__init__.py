@@ -1,1 +1,0 @@
-from .pdnotion import pdnotion
