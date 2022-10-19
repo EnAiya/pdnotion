@@ -12,7 +12,7 @@ pip install git+https://github.com/EnAiya/pdnotion.git
 ## usage
 
 ```python
-import pdnotion
+import pdnotion.pdnotion as pdnotion
 import pandas as pd
 
 DB_ID = "database_id"

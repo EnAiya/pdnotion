@@ -1,3 +1,6 @@
+[build-system]
+requires = ["setuptools"]
+
 [project]
 name = "pdnotion"
 version = "0.0.1"
@@ -12,11 +15,13 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+dependencies = [
+    "notion_client",
+    "pandas",
+    "functools",
+]
+
 [project.urls]
 "Homepage" = "https://github.com/EnAiya/pdnotion"
 "Bug Tracker" = "https://github.com/EnAiya/pdnotion/issues"
-
-[tool.poetry.dependencies]
-notion_client = "*"
-pandas = "*"
-functools = "*"
