@@ -2,6 +2,8 @@ from notion_client import Client
 import pandas as pd
 from functools import reduce
 
+from query_properties import query_properties
+
 class pdnotion:
     def __init__(self, token):
         self.client = Client(auth=token)
@@ -9,58 +11,13 @@ class pdnotion:
         props = self.client.databases.retrieve(db_id)["properties"]
         tmp =  list(map(lambda k: {k:props[k]["type"]}, props))
         return reduce(lambda a,b: a|b,tmp)
-    def query_properties(self,row,props):
-        tmp = list(map(lambda k: self.query_item(k,row[k],props),row.index))
-        return reduce(lambda a,b: a|b,tmp)
-    def query_item(self,col_name,value,props):
-        if col_name not in props: return {}
-        type = props[col_name]
-        if type == "title": return self.query_title(col_name,value)
-        if type == "multi_select":
-            return {
-                col_name:{
-                    "multi_select": list(map(lambda x: {"name": x}, value))
-                }
-            }
-        if type == "number":
-            return {
-                col_name:{
-                    "number" : value
-                }
-            }
-        if type == "files": return self.query_files(col_name,value)
-        return {}
-    def query_title(self,col_name,value):
-        return {
-            col_name:{
-                "title": [
-                    {
-                        "type": "text",
-                        "text":{
-                            "content": value
-                        }
-                    }
-                ]
-            }
-        }
-    def query_files(self,col_name,value):
-        return {
-            col_name:{
-                "files":[{
-                    "type": "external",
-                    "name": "file",
-                    "external":{
-                        "url":value
-                    }
-                }]
-            }
-        }
+
     def insert_row(self, db_id, row, props = None):
         if props is None: props = self.properties(db_id)
         self.client.pages.create(
             **{
                 "parent": {"database_id": db_id},
-                "properties": self.query_properties(row,props)
+                "properties": query_properties(row,props)
             }
         )
     def insert(self,db_id,pd):
