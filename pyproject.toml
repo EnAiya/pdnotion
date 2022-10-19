@@ -12,6 +12,11 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "notion_client",
+    "pandas",
+    "functools",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/EnAiya/pdnotion"
