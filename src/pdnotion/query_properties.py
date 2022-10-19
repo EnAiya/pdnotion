@@ -20,6 +20,17 @@ def query_item(col_name,value,props):
             }
         }
     if type == "files": return query_files(col_name,value)
+    if type == "rich_text": 
+        return{
+            col_name:{
+                "rich_text":[{
+                    "type": "text",
+                    "text":{
+                        "content":value
+                    }
+                }]
+            }
+        }
     return {}
 def query_title(col_name,value):
     return {
