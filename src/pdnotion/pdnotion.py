@@ -53,17 +53,3 @@ class pdnotion:
         if type == "multi_select": v= list(map(lambda x: x["name"], props[name]["multi_select"]))
         return {name:v}
     
-if __name__ == "__main__":
-    import os
-    from dotenv import load_dotenv
-    load_dotenv()
-    DB = "b6001e9f4ffc46f4a6a0a33d1c6c33bf"
-    pdn = pdnotion(os.getenv("NOTION_TOKEN"))
-
-    df = pd.DataFrame([["test",["test_tag"], "テキスト"], ["test2",["test2_tag"],""]],columns=["Name","Tags","Text"])
-    props = pdn.properties(DB)
-    row = df.iloc[0]
-    pdn.insert(DB,df)
-
-    tmp = pdn.load(DB)
-    print(tmp)
