@@ -47,6 +47,7 @@ class pdnotion:
 
     def parse_item(self,name,type,row):
         props = row["properties"]
+        v = ""
         if type == "title": v= props[name]["title"][0]["text"]["content"] if len(props[name]["title"]) > 0 else ""
         if type == "rich_text": v= props[name]["rich_text"][0]["text"]["content"] if len(props[name]["rich_text"]) > 0 else ""
         if type == "multi_select": v= list(map(lambda x: x["name"], props[name]["multi_select"]))
