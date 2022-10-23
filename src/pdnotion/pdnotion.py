@@ -23,7 +23,6 @@ class pdnotion:
     def insert(self,db_id,pd):
         props = self.properties(db_id)
         for id,row in pd.iterrows():
-            print(row)
             self.insert_row(db_id,row,props)
     def load(self,db_id):
         props = self.properties(db_id)
@@ -48,7 +47,6 @@ class pdnotion:
 
     def parse_item(self,name,type,row):
         props = row["properties"]
-        print(props)
         if type == "title": v= props[name]["title"][0]["text"]["content"] if len(props[name]["title"]) > 0 else ""
         if type == "rich_text": v= props[name]["rich_text"][0]["text"]["content"] if len(props[name]["rich_text"]) > 0 else ""
         if type == "multi_select": v= list(map(lambda x: x["name"], props[name]["multi_select"]))
