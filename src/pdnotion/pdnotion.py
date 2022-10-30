@@ -58,7 +58,7 @@ class pdnotion:
         if type == "rich_text": v= props[name]["rich_text"][0]["text"]["content"] if len(props[name]["rich_text"]) > 0 else ""
         if type == "multi_select": v= list(map(lambda x: x["name"], props[name]["multi_select"]))
         if type == "number": v = props[name]["number"]
-        # if type == "formula": v= props[name]["formula"]["number"]
+        if type == "formula": v= props[name]["formula"]["number"] if "number" in props[name]["formula"] else ""
         if type == "files": v=props[name]["files"][0]["external"]["url"] if len(props[name]["files"]) > 0 else ""
         return {name:v}
     
