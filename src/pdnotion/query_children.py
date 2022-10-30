@@ -1,8 +1,6 @@
 def query_children(text):
     blocks = split_in_n(text, 2000)
-    {
-        "children":[query_block(text) for text in blocks]
-    }
+    return [query_block(text) for text in blocks]
 
 def query_block(text):
     return  {
