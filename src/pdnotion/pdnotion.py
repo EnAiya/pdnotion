@@ -3,6 +3,7 @@ import pandas as pd
 from functools import reduce
 
 from .query_properties import query_properties
+from .query_children import query_children
 
 class pdnotion:
     def __init__(self, token):
@@ -20,20 +21,7 @@ class pdnotion:
             }
         if content is not None:
             q |= {
-                "children":[
-                    {
-                        "object": "block",
-                        "type": "paragraph",
-                        "paragraph": {
-                            "rich_text": [{
-                                "type": "text",
-                                "text":{
-                                    "content": row[content]
-                                }
-                            }]
-                        }
-                    }
-                ]
+                "children":query_children(row[content])
             }
         self.client.pages.create(
             **q
