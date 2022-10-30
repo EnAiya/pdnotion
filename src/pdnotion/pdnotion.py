@@ -12,19 +12,36 @@ class pdnotion:
         tmp =  list(map(lambda k: {k:props[k]["type"]}, props))
         return reduce(lambda a,b: a|b,tmp)
 
-    def insert_row(self, db_id, row, props = None):
+    def insert_row(self, db_id, row, props = None, content = None):
         if props is None: props = self.properties(db_id)
         q = {
                 "parent": {"database_id": db_id},
                 "properties": query_properties(row,props)
             }
+        if content is not None:
+            q |= {
+                "children":[
+                    {
+                        "object": "block",
+                        "type": "paragraph",
+                        "paragraph": {
+                            "ritch_text": [{
+                                "type": "text",
+                                "text":{
+                                    "content": row[content]
+                                }
+                            }]
+                        }
+                    }
+                ]
+            }
         self.client.pages.create(
             **q
         )
-    def insert(self,db_id,pd):
+    def insert(self,db_id,pd,content=None):
         props = self.properties(db_id)
         for id,row in pd.iterrows():
-            self.insert_row(db_id,row,props)
+            self.insert_row(db_id,row,props,content)
     def load(self,db_id):
         props = self.properties(db_id)
         hasmore = True
