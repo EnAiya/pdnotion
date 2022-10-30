@@ -1,15 +1,18 @@
+[tool.poetry]
+version = "0.1.0"
+
 [build-system]
 requires = ["setuptools"]
 
 [project]
 name = "pdnotion"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="En Aiya", email="author@example.com" },
 ]
 description = ""
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

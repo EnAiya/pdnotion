@@ -14,11 +14,12 @@ class pdnotion:
 
     def insert_row(self, db_id, row, props = None):
         if props is None: props = self.properties(db_id)
-        self.client.pages.create(
-            **{
+        q = {
                 "parent": {"database_id": db_id},
                 "properties": query_properties(row,props)
             }
+        self.client.pages.create(
+            **q
         )
     def insert(self,db_id,pd):
         props = self.properties(db_id)
