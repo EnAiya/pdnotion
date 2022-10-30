@@ -25,7 +25,7 @@ class pdnotion:
                         "object": "block",
                         "type": "paragraph",
                         "paragraph": {
-                            "ritch_text": [{
+                            "rich_text": [{
                                 "type": "text",
                                 "text":{
                                     "content": row[content]
