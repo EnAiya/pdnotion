@@ -30,10 +30,11 @@ class pdnotion:
         props = self.properties(db_id)
         for id,row in pd.iterrows():
             self.insert_row(db_id,row,props,content)
-    def load(self,db_id):
+    def load(self,db_id,max_page=-1):
         props = self.properties(db_id)
         hasmore = True
         data = []
+        page = 0
         next = None
         while hasmore:
             db = self.client.databases.query(
@@ -45,6 +46,8 @@ class pdnotion:
             data += db["results"]
             hasmore = db["has_more"]
             next = db["next_cursor"]
+            page += 1
+            if max_page != -1 and page >= max_page: break
         return pd.DataFrame(list(map(lambda d: self.parse_notion(d,props), data)))
         
     def parse_notion(self,row, props):
