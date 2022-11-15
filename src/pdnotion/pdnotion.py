@@ -52,6 +52,7 @@ class pdnotion:
         
     def parse_notion(self,row, props):
         tmp = list(map(lambda k: self.parse_item(k,props[k],row),props))
+        tmp += [{"_page_id": row["id"]}]
         return reduce(lambda a,b: a|b,tmp)
 
     def parse_item(self,name,type,row):
