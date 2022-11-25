@@ -31,6 +31,7 @@ def query_item(col_name,value,props):
                 }]
             }
         }
+    if type == "checkbox": return query_checkbox(col_name,value)
     return {}
 def query_title(col_name,value):
     return {
@@ -55,5 +56,12 @@ def query_files(col_name,value):
                     "url":value
                 }
             }]
+        }
+    }
+
+def query_checkbox(col_name,value):
+    return{
+        col_name:{
+            "checkbox": value
         }
     }

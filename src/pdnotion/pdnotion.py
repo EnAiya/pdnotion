@@ -76,3 +76,5 @@ if __name__ == "__main__":
     pdn = pdnotion(os.getenv("NOTION_TOKEN"))
     df = pdn.load(os.getenv("NOTION_DB"))
     print(df.head(10))
+
+    pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"checkbox_test", "Checkbox": True}]))
