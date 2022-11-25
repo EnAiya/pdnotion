@@ -65,6 +65,7 @@ class pdnotion:
         if type == "number": v = props[name]["number"]
         if type == "formula": v= props[name]["formula"]["number"] if "number" in props[name]["formula"] else ""
         if type == "files": v=props[name]["files"][0]["external"]["url"] if len(props[name]["files"]) > 0 else ""
+        if type == "checkbox": v=props[name]["checkbox"]
         return {name:v}
     
 if __name__ == "__main__":
