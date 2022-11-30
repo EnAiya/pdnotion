@@ -30,19 +30,19 @@ class pdnotion:
         props = self.properties(db_id)
         for id,row in pd.iterrows():
             self.insert_row(db_id,row,props,content)
-    def load(self,db_id,max_page=-1):
+    def load(self,db_id,max_page=-1,filter=None):
         props = self.properties(db_id)
         hasmore = True
         data = []
         page = 0
         next = None
         while hasmore:
-            db = self.client.databases.query(
-                **{
+            param = {
                     "database_id": db_id,
                     "start_cursor": next,
-                }
-            )
+                    "filter": filter,
+            }
+            db = self.client.databases.query(**param)
             data += db["results"]
             hasmore = db["has_more"]
             next = db["next_cursor"]
@@ -77,4 +77,13 @@ if __name__ == "__main__":
     df = pdn.load(os.getenv("NOTION_DB"))
     print(df.head(10))
 
-    pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"checkbox_test", "Checkbox": True}]))
+    # filter test
+    df = pdn.load(os.getenv("NOTION_DB"),filter={
+        "property": "Checkbox",
+        "checkbox":{
+            "equals": True
+        }
+    })
+    print(df.head(10))
+
+    # pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"checkbox_test", "Checkbox": True}]))
