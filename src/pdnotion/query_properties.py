@@ -8,6 +8,9 @@ def query_item(col_name,value,props):
     type = props[col_name]
     if type == "title": return query_title(col_name,value)
     if type == "multi_select":
+        print(col_name)
+        print(value)
+        print(props)
         return {
             col_name:{
                 "multi_select": list(map(lambda x: {"name": x}, value))

@@ -13,19 +13,36 @@ class pdnotion:
         tmp =  list(map(lambda k: {k:props[k]["type"]}, props))
         return reduce(lambda a,b: a|b,tmp)
 
-    def insert_row(self, db_id, row, props = None, content = None):
+    def insert_row(self, db_id, row, props = None, content = None, update=False):
         if props is None: props = self.properties(db_id)
         q = {
+                "properties": query_properties(row,props),
+            }
+        if not update:
+            q |={
                 "parent": {"database_id": db_id},
-                "properties": query_properties(row,props)
+            }
+        else:
+            assert("_page_id" in row)
+            q |={
+                "page_id": row["_page_id"]
             }
         if content is not None:
             q |= {
                 "children":query_children(row[content])
             }
-        self.client.pages.create(
-            **q
-        )
+        if not update:
+            self.client.pages.create(
+                **q
+            )
+        else:
+            self.client.pages.update(
+                **q
+            )
+    def update(self,db_id,pd,content=None):
+        props = self.properties(db_id)
+        for id,row in pd.iterrows():
+            self.insert_row(db_id,row,props,content,update=True)       
     def insert(self,db_id,pd,content=None):
         props = self.properties(db_id)
         for id,row in pd.iterrows():
@@ -86,4 +103,8 @@ if __name__ == "__main__":
     })
     print(df.head(10))
 
-    # pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"checkbox_test", "Checkbox": True}]))
+    pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"checkbox_test", "Checkbox": True}]))
+    row = df.head(1)
+    row.at[row.index[0], "Name"] = "update_test"
+    print(row)
+    pdn.update(os.getenv("NOTION_DB"),row)
