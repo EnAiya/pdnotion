@@ -2,8 +2,8 @@ from notion_client import Client
 import pandas as pd
 from functools import reduce
 
-from query_properties import query_properties
-from query_children import query_children
+from .query_properties import query_properties
+from .query_children import query_children
 
 class pdnotion:
     def __init__(self, token):
