@@ -2,8 +2,8 @@ from notion_client import Client
 import pandas as pd
 from functools import reduce
 
-from .query_properties import query_properties
-from .query_children import query_children
+from query_properties import query_properties
+from query_children import query_children
 
 class pdnotion:
     def __init__(self, token):
@@ -83,6 +83,7 @@ class pdnotion:
         if type == "formula": v= props[name]["formula"]["number"] if "number" in props[name]["formula"] else ""
         if type == "files": v=props[name]["files"][0]["external"]["url"] if len(props[name]["files"]) > 0 else ""
         if type == "checkbox": v=props[name]["checkbox"]
+        if type == "date": v=props[name]["date"]["start"] if props[name]["date"] is not None else ""
         return {name:v}
     
 if __name__ == "__main__":
