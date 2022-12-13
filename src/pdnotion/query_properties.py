@@ -35,7 +35,17 @@ def query_item(col_name,value,props):
             }
         }
     if type == "checkbox": return query_checkbox(col_name,value)
+    if type == "date": return query_date(col_name,value)
     return {}
+def query_date(col_name,value):
+    if value == "": return {}
+    return {
+        col_name:{
+            "date":{
+                "start": value
+            }
+        }
+    }
 def query_title(col_name,value):
     return {
         col_name:{

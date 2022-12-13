@@ -103,7 +103,9 @@ if __name__ == "__main__":
     })
     print(df.head(10))
 
-    pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"checkbox_test", "Checkbox": True}]))
+    import datetime
+    dnow = datetime.datetime.utcnow().isoformat()
+    pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"date_test", "Date": dnow}]))
     row = df.head(1)
     row.at[row.index[0], "Name"] = "update_test"
     print(row)
