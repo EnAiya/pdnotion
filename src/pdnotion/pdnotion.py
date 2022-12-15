@@ -1,6 +1,7 @@
 from notion_client import Client
 import pandas as pd
 from functools import reduce
+import datetime
 
 from .query_properties import query_properties
 from .query_children import query_children
@@ -70,6 +71,8 @@ class pdnotion:
     def parse_notion(self,row, props):
         tmp = list(map(lambda k: self.parse_item(k,props[k],row),props))
         tmp += [{"_page_id": row["id"]}]
+        tmp += [{"_created_time": datetime.datetime.fromisoformat(row["created_time"].replace('Z', '+00:00'))}]
+        tmp += [{"_last_edited_time": datetime.datetime.fromisoformat(row["last_edited_time"].replace('Z', '+00:00'))}]
         return reduce(lambda a,b: a|b,tmp)
 
     def parse_item(self,name,type,row):
