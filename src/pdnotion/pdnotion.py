@@ -88,6 +88,8 @@ class pdnotion:
         if type == "files": v=props[name]["files"][0]["external"]["url"] if len(props[name]["files"]) > 0 else ""
         if type == "checkbox": v=props[name]["checkbox"]
         if type == "date": v=props[name]["date"]["start"] if props[name]["date"] is not None else ""
+        if type == "relation": v= list(map(lambda x: x["id"], props[name]["relation"])) if len(props[name]["relation"]) > 0 else ""
+        if type == "rollup": v= props[name]["rollup"]
         return {name:v}
     
 if __name__ == "__main__":
@@ -95,9 +97,12 @@ if __name__ == "__main__":
     import os
     load_dotenv()
 
+    # load test
+    print("load test")
     pdn = pdnotion(os.getenv("NOTION_TOKEN"))
     df = pdn.load(os.getenv("NOTION_DB"))
     print(df.head(10))
+    print(df.iloc[0])
 
     # sort test
     print("sort test")
@@ -105,7 +110,7 @@ if __name__ == "__main__":
         "property": "Name",
         "direction": "ascending"
     }])
-    print(df.head(10))
+    print(df.head(3))
 
 
     # filter test
@@ -115,9 +120,11 @@ if __name__ == "__main__":
             "equals": True
         }
     })
-    print(df.head(10))
+    print(df.head(3))
 
 
+    # insert test
+    print("insert test")
     import datetime
     dnow = datetime.datetime.utcnow().isoformat()
     pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"date_test", "Date": dnow}]))
