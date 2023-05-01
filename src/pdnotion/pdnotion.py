@@ -48,17 +48,18 @@ class pdnotion:
         props = self.properties(db_id)
         for id,row in pd.iterrows():
             self.insert_row(db_id,row,props,content)
-    def load(self,db_id,max_page=-1,filter=None):
+    def load(self,db_id,max_page=-1,**kwargs):
         props = self.properties(db_id)
         hasmore = True
         data = []
         page = 0
-        next = None
+        next = kwargs.get("start_cursor",None)
+        
         while hasmore:
             param = {
                     "database_id": db_id,
                     "start_cursor": next,
-                    "filter": filter,
+                    **kwargs
             }
             db = self.client.databases.query(**param)
             data += db["results"]
@@ -98,6 +99,15 @@ if __name__ == "__main__":
     df = pdn.load(os.getenv("NOTION_DB"))
     print(df.head(10))
 
+    # sort test
+    print("sort test")
+    df = pdn.load(os.getenv("NOTION_DB"),sorts=[{
+        "property": "Name",
+        "direction": "ascending"
+    }])
+    print(df.head(10))
+
+
     # filter test
     df = pdn.load(os.getenv("NOTION_DB"),filter={
         "property": "Checkbox",
@@ -106,6 +116,7 @@ if __name__ == "__main__":
         }
     })
     print(df.head(10))
+
 
     import datetime
     dnow = datetime.datetime.utcnow().isoformat()
