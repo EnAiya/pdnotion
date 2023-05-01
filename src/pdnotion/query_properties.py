@@ -36,7 +36,16 @@ def query_item(col_name,value,props):
         }
     if type == "checkbox": return query_checkbox(col_name,value)
     if type == "date": return query_date(col_name,value)
+    if type == "relation": return query_relation(col_name,value)
     return {}
+def query_relation(col_name,value):
+    if value == "": return {}
+    value = value if type(value) is list else [value]
+    return {
+        col_name:{
+            "relation": list(map(lambda x: {"id": x}, value))
+        }
+    }
 def query_date(col_name,value):
     if value == "": return {}
     return {

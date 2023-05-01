@@ -33,11 +33,11 @@ class pdnotion:
                 "children":query_children(row[content])
             }
         if not update:
-            self.client.pages.create(
+            return self.client.pages.create(
                 **q
             )
         else:
-            self.client.pages.update(
+            return self.client.pages.update(
                 **q
             )
     def update(self,db_id,pd,content=None):
@@ -46,8 +46,10 @@ class pdnotion:
             self.insert_row(db_id,row,props,content,update=True)       
     def insert(self,db_id,pd,content=None):
         props = self.properties(db_id)
+        results = []
         for id,row in pd.iterrows():
-            self.insert_row(db_id,row,props,content)
+            results += [self.insert_row(db_id,row,props,content)]
+        return results
     def load(self,db_id,max_page=-1,**kwargs):
         props = self.properties(db_id)
         hasmore = True
@@ -127,7 +129,9 @@ if __name__ == "__main__":
     print("insert test")
     import datetime
     dnow = datetime.datetime.utcnow().isoformat()
-    pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"date_test", "Date": dnow}]))
+    tmp = pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"date_test", "Date": dnow, "Relation": "e9216a589e29496fa8b555d17fc59950"}]))
+    print(tmp)
+    print("^^^^ inserted ^^^^")
     row = df.head(1)
     row.at[row.index[0], "Name"] = "update_test"
     print(row)
