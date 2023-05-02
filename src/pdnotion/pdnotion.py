@@ -86,7 +86,7 @@ class pdnotion:
         if type == "multi_select": v= list(map(lambda x: x["name"], props[name]["multi_select"]))
         if type == "select": v = props[name]["select"]["name"] if props[name]["select"] is not None else ""
         if type == "number": v = props[name]["number"]
-        if type == "formula": v= props[name]["formula"]["number"] if "number" in props[name]["formula"] else ""
+        if type == "formula": v= props[name]["formula"]["number"] if "number" in props[name]["formula"] else props[name]["formula"]["string"] if "string" in props[name]["formula"] else props[name]["formula"]["boolean"] if "boolean" in props[name]["formula"] else ""
         if type == "files": v=props[name]["files"][0]["external"]["url"] if len(props[name]["files"]) > 0 else ""
         if type == "checkbox": v=props[name]["checkbox"]
         if type == "date": v=props[name]["date"]["start"] if props[name]["date"] is not None else ""
