@@ -1,5 +1,8 @@
 def query_children(text):
-    blocks = split_in_n(text, 2000)
+    if type(text) is list:
+        blocks = text
+    else:
+        blocks = split_in_n(text, 2000)
     return [query_block(text) for text in blocks]
 
 def query_block(text):
