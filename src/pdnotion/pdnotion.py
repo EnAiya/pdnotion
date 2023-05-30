@@ -129,7 +129,19 @@ if __name__ == "__main__":
     print("insert test")
     import datetime
     dnow = datetime.datetime.utcnow().isoformat()
-    tmp = pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([{"Name":"date_test", "Date": dnow, "Relation": "e9216a589e29496fa8b555d17fc59950"}]))
+    tmp = pdn.insert(os.getenv("NOTION_DB"),pd.DataFrame([
+        {
+            "Name":"date_test", 
+            "Date": dnow, 
+            "Relation": "e9216a589e29496fa8b555d17fc59950",
+            "content": 
+"""
+# test
+```python
+print("hello world")
+```
+"""
+         }]),content="content")
     print(tmp)
     print("^^^^ inserted ^^^^")
     row = df.head(1)
