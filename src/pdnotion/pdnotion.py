@@ -92,6 +92,7 @@ class pdnotion:
         if type == "date": v=props[name]["date"]["start"] if props[name]["date"] is not None else ""
         if type == "relation": v= list(map(lambda x: x["id"], props[name]["relation"])) if len(props[name]["relation"]) > 0 else ""
         if type == "rollup": v= props[name]["rollup"]
+        if type == "url": v=props[name]["url"]
         return {name:v}
     
 if __name__ == "__main__":
@@ -146,5 +147,7 @@ print("hello world")
     print("^^^^ inserted ^^^^")
     row = df.head(1)
     row.at[row.index[0], "Name"] = "update_test"
-    print(row)
-    pdn.update(os.getenv("NOTION_DB"),row)
+    print(row.loc[:,["_page_id","Name"]])
+    pdn.update(os.getenv("NOTION_DB"),row.loc[:,["_page_id","Name"]])
+
+    print(df["URL"])
